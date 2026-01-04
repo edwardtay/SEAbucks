@@ -1,0 +1,576 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/contracts/MockERC20.sol": {
+      "lastModificationDate": 1767555962641,
+      "contentHash": "04dd67069687812f92b1cc5a6ca50dfe",
+      "sourceName": "contracts/MockERC20.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "MockERC20"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol": {
+      "lastModificationDate": 1767556059565,
+      "contentHash": "59dfce11284f2636db261df9b6a18f81",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC20.sol",
+        "./extensions/IERC20Metadata.sol",
+        "../../utils/Context.sol",
+        "../../interfaces/draft-IERC6093.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "ERC20"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/node_modules/@openzeppelin/contracts/utils/Context.sol": {
+      "lastModificationDate": 1767556059548,
+      "contentHash": "67bfbc07588eb8683b3fd8f6f909563e",
+      "sourceName": "@openzeppelin/contracts/utils/Context.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "Context"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/node_modules/@openzeppelin/contracts/interfaces/draft-IERC6093.sol": {
+      "lastModificationDate": 1767556059556,
+      "contentHash": "5041977bbe908de2e6ed0270447f79ad",
+      "sourceName": "@openzeppelin/contracts/interfaces/draft-IERC6093.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.8.4"
+      ],
+      "artifacts": [
+        "IERC1155Errors",
+        "IERC20Errors",
+        "IERC721Errors"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+      "lastModificationDate": 1767556059593,
+      "contentHash": "9261adf6457863de3e9892f51317ec89",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.16"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
+      "lastModificationDate": 1767556059594,
+      "contentHash": "513778b30d2750f5d2b9b19bbcf748a5",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../IERC20.sol"
+      ],
+      "versionPragmas": [
+        ">=0.6.2"
+      ],
+      "artifacts": [
+        "IERC20Metadata"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/contracts/PaymentPortal.sol": {
+      "lastModificationDate": 1767556442784,
+      "contentHash": "10e38bc7e9db76e54b0a7ce9c3a96140",
+      "sourceName": "contracts/PaymentPortal.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "@openzeppelin/contracts/access/Ownable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "IRouter",
+        "PaymentPortal"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
+      "lastModificationDate": 1767556059606,
+      "contentHash": "d3c790edc9ccf808a17c5a6cd13614fd",
+      "sourceName": "@openzeppelin/contracts/access/Ownable.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "Ownable"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/contracts/MockRouter.sol": {
+      "lastModificationDate": 1767556420267,
+      "contentHash": "b3cfd124d3eb8408db9b1d426e65a330",
+      "sourceName": "contracts/MockRouter.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "MockRouter"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/contracts/MockTHB.sol": {
+      "lastModificationDate": 1767556418273,
+      "contentHash": "60426788eda675b8481889a04331a375",
+      "sourceName": "contracts/MockTHB.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "MockTHB"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/contracts/MockIDR.sol": {
+      "lastModificationDate": 1767556411803,
+      "contentHash": "3cb5d19b1d763974c55d52b5afe8c3df",
+      "sourceName": "contracts/MockIDR.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "MockIDR"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/contracts/MockVND.sol": {
+      "lastModificationDate": 1767557965459,
+      "contentHash": "79d1058e086e1980256bade47ced4cc1",
+      "sourceName": "contracts/MockVND.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "MockVND"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/contracts/MockSGD.sol": {
+      "lastModificationDate": 1767557974476,
+      "contentHash": "5d84b2cbc5afc4b8378930db4189aeff",
+      "sourceName": "contracts/MockSGD.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "MockSGD"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/contracts/MockPHP.sol": {
+      "lastModificationDate": 1767557970490,
+      "contentHash": "95da67a4bd0904d371c84f3fd560513e",
+      "sourceName": "contracts/MockPHP.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "MockPHP"
+      ]
+    },
+    "/home/edwardtay/1-hackathon/lisk/packages/contracts/contracts/MockMYR.sol": {
+      "lastModificationDate": 1767557972463,
+      "contentHash": "fd7e2bdaaa6e40d3eefc474aa9ea8039",
+      "sourceName": "contracts/MockMYR.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "MockMYR"
+      ]
+    }
+  }
+}
