@@ -100,8 +100,8 @@ export default function Home() {
         {!isConnected ? (
           <div className="text-center py-12 sm:py-24 space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
             <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-white leading-[1.1]">
-              Paid in <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Seconds.</span>
+              Fast, Secure Payments <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">for Southeast Asia.</span>
             </h1>
             <p className="text-lg sm:text-xl text-slate-400 max-w-lg mx-auto leading-relaxed">
               Accept USDC from anywhere. <br className="hidden sm:block" />
