@@ -12,9 +12,68 @@ import Link from "next/link";
 
 export default function Home() {
   const { isConnected, address, chain } = useAccount();
-  // ... state declarations ...
+  const [amount, setAmount] = useState("");
+  const [memo, setMemo] = useState("");
+  const [currency, setCurrency] = useState<CurrencyCode>("IDR"); // Default to IDR (Destination)
+  const [token, setToken] = useState<TokenCode>("USDC"); // Default Source Token
+  const [generatedLink, setGeneratedLink] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [rate, setRate] = useState<number | null>(null);
+  const [recentPayments, setRecentPayments] = useState<any[]>([]);
 
-  // ... useEffects and handlers ...
+  // Mock fetching recent payments (In production, use TheGraph or an Indexer)
+  useEffect(() => {
+    if (isConnected) {
+      // Simulate some data for the demo "Merchant Dashboard" feel
+      setRecentPayments([
+        { id: 1, amount: "500,000", currency: "IDR", from: "0x12..ab12", time: "2 mins ago" },
+        { id: 2, amount: "1,200", currency: "THB", from: "0x89..cd34", time: "15 mins ago" },
+        { id: 3, amount: "450,000", currency: "VND", from: "0x56..ef56", time: "1 hour ago" },
+      ]);
+    }
+  }, [isConnected]);
+
+  const chainId = (chain?.id || LISK_SEPOLIA_CHAIN_ID) as SupportedChainId;
+  const TOKENS_CONFIG = getChainConfig(TOKENS, chainId);
+  const CURRENCIES_CONFIG = getChainConfig(CURRENCIES, chainId);
+
+  useEffect(() => {
+    // Fetch live rate
+    const fetchRate = async () => {
+      try {
+        const res = await fetch(`https://open.er-api.com/v6/latest/USD`);
+        const data = await res.json();
+        if (data && data.rates && data.rates[currency]) {
+          setRate(data.rates[currency]);
+        }
+      } catch (e) {
+        console.error("Failed to fetch rate");
+      }
+    };
+    fetchRate();
+  }, [currency]);
+
+  const handleCreateLink = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!address) return;
+
+    const params = new URLSearchParams();
+    params.set("to", address);
+    params.set("amount", amount);
+    if (memo) params.set("memo", memo);
+    params.set("currency", CURRENCIES_CONFIG[currency].address);
+    params.set("symbol", currency);
+    params.set("token", token); // Add source token code
+
+    const url = `${window.location.origin}/pay?${params.toString()}`;
+    setGeneratedLink(url);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(generatedLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <main className="min-h-screen bg-background relative selection:bg-primary/20 font-sans overflow-x-hidden">
