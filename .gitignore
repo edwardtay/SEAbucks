@@ -1,1 +1,14 @@
+node_modules
+.next
+dist
+out
+build
+.env
+.DS_Store
+coverage
+.turbo
 private/
+apps/web/.next
+packages/contracts/artifacts
+packages/contracts/cache
+packages/contracts/typechain-types
