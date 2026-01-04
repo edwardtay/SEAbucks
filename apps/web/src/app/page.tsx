@@ -273,9 +273,9 @@ export default function Home() {
         </div>
       )}
 
-      <footer className="fixed bottom-4 left-0 right-0 text-center pointer-events-none z-0 opacity-50">
-        <p className="text-[10px] text-slate-500 uppercase tracking-widest">
-          Built on Lisk Network
+      <footer className="fixed bottom-4 left-0 right-0 text-center pointer-events-none z-0 opacity-40">
+        <p className="text-[10px] text-slate-600 font-medium">
+          Beta. Use at your own risk.
         </p>
       </footer>
     </main>
