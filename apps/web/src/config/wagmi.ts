@@ -1,6 +1,5 @@
-import { http, createConfig } from 'wagmi'
+import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 import { defineChain } from 'viem'
-import { injected } from 'wagmi/connectors'
 
 export const liskSepolia = defineChain({
     id: 4202,
@@ -19,10 +18,9 @@ export const liskSepolia = defineChain({
     testnet: true,
 })
 
-export const config = createConfig({
+export const config = getDefaultConfig({
+    appName: 'SEAbucks',
+    projectId: 'YOUR_PROJECT_ID', // Replace with actual ID (WalletConnect)
     chains: [liskSepolia],
-    connectors: [injected()],
-    transports: {
-        [liskSepolia.id]: http(),
-    },
+    ssr: true,
 })

@@ -4,70 +4,112 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { ConnectWallet } from "@/components/ConnectWallet";
-import { PaymentPortalABI } from "@/abis/PaymentPortalABI";
+import { TOKENS, TokenCode } from "@/config/tokens";
+import { getChainConfig, LISK_SEPOLIA_CHAIN_ID, SupportedChainId } from "@/config/chains";
+import { SEABucksRouterABI } from "@/abis/SEABucksRouterABI";
 import { erc20Abi, formatUnits, parseUnits } from "viem";
-import { CheckCircle2, Loader2, AlertCircle, ArrowRight, ArrowRightLeft } from "lucide-react";
+import { CheckCircle2, Loader2, AlertCircle, ArrowRight, ArrowRightLeft, Download, Share2 } from "lucide-react";
+import confetti from "canvas-confetti";
+import { toPng } from "html-to-image";
+import { useRef } from "react";
 
-// Replace with deployed addresses
-const PAYMENT_PORTAL_ADDRESS = "0xd2b24B1a5345C17c0BCC022Ac0b2123353bd2122";
-const USDC_ADDRESS = "0xDb993d5dc583017b7624F650deBc8B140213C490";
+// Helper to get Router Address based on chain
+const getRouterAddress = (chainId: number) => {
+    // For Hackathon, we might have same address or different.
+    // Lisk Sepolia
+    if (chainId === LISK_SEPOLIA_CHAIN_ID) return "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+
+    // Mainnet Placeholder
+    return "0x...";
+};
 
 function PaymentContent() {
     const searchParams = useSearchParams();
     const to = searchParams.get("to");
     const amount = searchParams.get("amount");
     const memo = searchParams.get("memo");
-    const currency = searchParams.get("currency") || USDC_ADDRESS; // Default to USDC
-    const symbol = searchParams.get("symbol") || "USDC";
+    const currency = searchParams.get("currency"); // Destination Token Address (e.g. IDR)
+    const symbol = searchParams.get("symbol") || "IDR";
+    const tokenParam = (searchParams.get("token") as TokenCode) || "USDC";
 
-    const { isConnected, address } = useAccount();
+    const { isConnected, address, chain } = useAccount();
+    const chainId = (chain?.id || LISK_SEPOLIA_CHAIN_ID) as SupportedChainId;
+
+    const TOKENS_CONFIG = getChainConfig(TOKENS, chainId);
+    const sourceToken = TOKENS_CONFIG[tokenParam] || TOKENS_CONFIG.USDC;
+
+    const tokenInAddress = sourceToken.address;
+    const tokenSymbol = sourceToken.symbol;
+    const routerAddress = getRouterAddress(chainId);
+
     const { writeContractAsync } = useWriteContract();
+    const receiptRef = useRef<HTMLDivElement>(null);
 
     const [status, setStatus] = useState<"idle" | "approving" | "paying" | "success" | "error">("idle");
     const [txHash, setTxHash] = useState<string>("");
     const [errorMessage, setErrorMessage] = useState("");
 
-    const amountBigInt = amount ? parseUnits(amount, 18) : 0n;
+    const amountBigInt = amount ? parseUnits(amount, sourceToken.decimals) : 0n;
 
-    // Check allowance for USDC (Payer always pays in USDC)
+    // Check allowance for Source Token
     const { data: allowance, refetch: refetchAllowance } = useReadContract({
-        address: USDC_ADDRESS,
+        address: tokenInAddress as `0x${string}`,
         abi: erc20Abi,
         functionName: "allowance",
-        args: [address!, PAYMENT_PORTAL_ADDRESS],
+        args: [address!, routerAddress as `0x${string}`],
         query: {
             enabled: !!address && isConnected,
         }
     });
 
     const handlePay = async () => {
-        if (!isConnected || !to || !amount) return;
+        if (!isConnected || !to || !amount || !currency) return;
 
         try {
-            setStatus("paying"); // assumed approved or handled
+            setStatus("paying");
 
-            // Determine if swap is needed
-            // Pay(tokenIn, tokenOut, to, amountIn, amountOutMin, memo)
+            // 1. Get Quote & Signature from Dealer (Server)
+            const quoteRes = await fetch("/api/quote", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    tokenIn: tokenInAddress,
+                    tokenOut: currency,
+                    amountIn: amountBigInt.toString(),
+                    recipient: to,
+                })
+            });
 
-            // For Mock Logic: amountOutMin = amountBigInt (1:1 Swap)
-            const minOut = amountBigInt;
+            const quoteData = await quoteRes.json();
+            if (!quoteRes.ok) throw new Error(quoteData.error || "Failed to get quote");
 
+            const { signature, amountOut, deadline, rate } = quoteData;
+            console.log("Got Quote:", quoteData);
+
+            // 2. Execute Swap via Router
             const hash = await writeContractAsync({
-                address: PAYMENT_PORTAL_ADDRESS,
-                abi: PaymentPortalABI,
-                functionName: "pay",
+                address: routerAddress as `0x${string}`,
+                abi: SEABucksRouterABI,
+                functionName: "swapExactTokensForTokensWithSignature",
                 args: [
-                    USDC_ADDRESS,           // tokenIn
-                    currency as `0x${string}`, // tokenOut (Desired)
-                    to as `0x${string}`,    // Merchant
-                    amountBigInt,           // Amount In
-                    minOut,                 // Min Out (1:1 for mock)
-                    memo || ""              // Memo
+                    tokenInAddress as `0x${string}`,
+                    currency as `0x${string}`,
+                    amountBigInt,
+                    BigInt(amountOut),
+                    to as `0x${string}`,
+                    BigInt(deadline),
+                    signature as `0x${string}`
                 ],
             });
 
             setTxHash(hash);
             setStatus("success");
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#2563eb', '#9333ea', '#22c55e', '#ffffff']
+            });
         } catch (e: any) {
             console.error(e);
             setErrorMessage(e.message || "Payment failed");
@@ -81,10 +123,10 @@ function PaymentContent() {
         try {
             setStatus("approving");
             await writeContractAsync({
-                address: USDC_ADDRESS,
+                address: tokenInAddress as `0x${string}`,
                 abi: erc20Abi,
                 functionName: "approve",
-                args: [PAYMENT_PORTAL_ADDRESS, amountBigInt],
+                args: [routerAddress as `0x${string}`, amountBigInt],
             });
             setTimeout(() => refetchAllowance(), 2000);
             setStatus("idle");
@@ -92,6 +134,21 @@ function PaymentContent() {
             setStatus("error");
         }
     }
+
+    const downloadReceipt = async () => {
+        if (receiptRef.current === null) return;
+
+        try {
+            const dataUrl = await toPng(receiptRef.current, { cacheBust: true, backgroundColor: '#020617' });
+            const link = document.createElement('a');
+            link.download = `seabucks-receipt-${Date.now()}.png`;
+            link.href = dataUrl;
+            link.click();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
 
     if (!to || !amount) {
         return (
@@ -105,7 +162,7 @@ function PaymentContent() {
     }
 
     // Check if swapping
-    const isSwapping = currency.toLowerCase() !== USDC_ADDRESS.toLowerCase();
+    const isSwapping = currency?.toLowerCase() !== tokenInAddress.toLowerCase();
 
     return (
         <div className="min-h-screen bg-black text-slate-200 flex items-center justify-center p-6 font-sans selection:bg-white/20">
@@ -125,7 +182,7 @@ function PaymentContent() {
                     <div className="text-center py-10 border-y border-slate-900">
                         <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">Total Due</div>
                         <div className="text-5xl font-light text-white tracking-tight">
-                            {amount} <span className="text-2xl text-slate-600">USDC</span>
+                            {amount} <span className="text-2xl text-slate-600">{tokenSymbol}</span>
                         </div>
 
                         {isSwapping && (
@@ -144,19 +201,50 @@ function PaymentContent() {
 
                     <div className="pt-4">
                         {status === "success" ? (
-                            <div className="text-center space-y-4 animate-in fade-in slide-in-from-bottom-2">
-                                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto text-black">
-                                    <CheckCircle2 size={24} />
+                            <div className="text-center space-y-6 animate-in fade-in slide-in-from-bottom-2">
+                                <div ref={receiptRef} className="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 space-y-4 shadow-xl">
+                                    <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto text-black shadow-[0_0_20px_rgba(34,197,94,0.4)]">
+                                        <CheckCircle2 size={32} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-bold text-white mb-1">Payment Successful!</h3>
+                                        <p className="text-slate-400 text-sm">You paid <span className="text-white font-medium">{amount} {tokenSymbol}</span></p>
+                                    </div>
+                                    <div className="border-t border-slate-800 pt-4 space-y-2">
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-slate-500">Recipient</span>
+                                            <span className="text-slate-300 font-mono">{to.slice(0, 6)}...{to.slice(-4)}</span>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-slate-500">Method</span>
+                                            <span className="text-slate-300">SEAbucks on Lisk</span>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-slate-500">Date</span>
+                                            <span className="text-slate-300">{new Date().toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+                                    <div className="pt-2">
+                                        <p className="text-[10px] text-slate-600 uppercase tracking-widest font-semibold">Verified Transaction</p>
+                                    </div>
                                 </div>
-                                <h3 className="text-lg font-medium text-white">Paid Successfully</h3>
-                                <a
-                                    href={`https://sepolia-blockscout.lisk.com/tx/${txHash}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="inline-flex items-center text-slate-400 hover:text-white text-sm transition-colors gap-1 border-b border-transparent hover:border-white pb-0.5"
-                                >
-                                    View Receipt <ArrowRight size={12} />
-                                </a>
+
+                                <div className="flex gap-3 justify-center">
+                                    <button
+                                        onClick={downloadReceipt}
+                                        className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-xs font-medium transition-colors"
+                                    >
+                                        <Download size={14} /> Save Receipt
+                                    </button>
+                                    <a
+                                        href={`https://sepolia-blockscout.lisk.com/tx/${txHash}`}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-xs font-medium transition-colors"
+                                    >
+                                        <Share2 size={14} /> View On-Chain
+                                    </a>
+                                </div>
                             </div>
                         ) : (
                             <>
@@ -178,7 +266,7 @@ function PaymentContent() {
                                                 disabled={status === "approving"}
                                                 className="w-full py-3.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-medium transition-all disabled:opacity-50 text-sm"
                                             >
-                                                {status === "approving" ? <span className="flex items-center justify-center gap-2"><Loader2 className="animate-spin w-4 h-4" /> Approving...</span> : "Approve USDC"}
+                                                {status === "approving" ? <span className="flex items-center justify-center gap-2"><Loader2 className="animate-spin w-4 h-4" /> Approving...</span> : `Approve ${tokenSymbol}`}
                                             </button>
                                         ) : (
                                             <button
