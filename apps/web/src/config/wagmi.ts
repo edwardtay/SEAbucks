@@ -1,5 +1,6 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 import { defineChain } from 'viem'
+import { lisk } from 'viem/chains'
 
 export const liskSepolia = defineChain({
     id: 4202,
@@ -21,6 +22,6 @@ export const liskSepolia = defineChain({
 export const config = getDefaultConfig({
     appName: 'SEAbucks',
     projectId: 'YOUR_PROJECT_ID', // Replace with actual ID (WalletConnect)
-    chains: [liskSepolia],
+    chains: [liskSepolia, lisk],
     ssr: true,
 })

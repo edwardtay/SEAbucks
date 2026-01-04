@@ -5,7 +5,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { ConnectWallet } from "@/components/ConnectWallet";
 import { TOKENS, TokenCode } from "@/config/tokens";
-import { getChainConfig, LISK_SEPOLIA_CHAIN_ID, SupportedChainId } from "@/config/chains";
+import { getChainConfig, LISK_SEPOLIA_CHAIN_ID, LISK_MAINNET_CHAIN_ID, SupportedChainId } from "@/config/chains";
 import { SEABucksRouterABI } from "@/abis/SEABucksRouterABI";
 import { erc20Abi, formatUnits, parseUnits } from "viem";
 import { CheckCircle2, Loader2, AlertCircle, ArrowRight, ArrowRightLeft, Download, Share2 } from "lucide-react";
@@ -15,11 +15,12 @@ import { useRef } from "react";
 
 // Helper to get Router Address based on chain
 const getRouterAddress = (chainId: number) => {
-    // For Hackathon, we might have same address or different.
     // Lisk Sepolia
     if (chainId === LISK_SEPOLIA_CHAIN_ID) return "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 
-    // Mainnet Placeholder
+    // Lisk Mainnet (TODO: DEPLOY AND UPDATE THIS)
+    if (chainId === LISK_MAINNET_CHAIN_ID) return "0x0000000000000000000000000000000000000000";
+
     return "0x...";
 };
 
