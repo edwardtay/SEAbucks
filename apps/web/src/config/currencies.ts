@@ -1,137 +1,141 @@
 import { LISK_MAINNET_CHAIN_ID, LISK_SEPOLIA_CHAIN_ID, SupportedChainId } from "./chains";
 
-export type CurrencyCode = "IDR" | "THB" | "VND" | "PHP" | "MYR" | "SGD" | "BND" | "KHR" | "LAK" | "MMK";
+export type CurrencyCode = "IDR" | "THB" | "VND" | "PHP" | "MYR" | "SGD";
 
 export interface Currency {
     code: CurrencyCode;
     name: string;
-    address: string;
+    country: string;
+    address: `0x${string}`;
     flag: string;
+    decimals: number;
+    // Real-world payment rails available
+    paymentRails: string[];
 }
 
+// IDRX is a real IDR stablecoin deployed on Lisk
+// https://docs.lisk.com/about-lisk/deployed-tokens
 export const CURRENCIES: Record<SupportedChainId, Record<CurrencyCode, Currency>> = {
     [LISK_SEPOLIA_CHAIN_ID]: {
         IDR: {
             code: "IDR",
-            name: "Indonesia",
-            address: "0xcfF09905F8f18B35F5A1Ba6d2822D62B3d8c48bE",
+            name: "Indonesian Rupiah",
+            country: "Indonesia",
+            address: "0xD63029C1a3dA68b51c67c6D1DeC3DEe50D681661", // Real IDRX on Lisk Sepolia
             flag: "/flags/id.svg",
+            decimals: 2,
+            paymentRails: ["QRIS", "GoPay", "OVO", "Dana", "Bank Transfer"],
         },
         THB: {
             code: "THB",
-            name: "Thailand",
-            address: "0xf98a4A0482d534c004cdB9A3358fd71347c4395B",
+            name: "Thai Baht",
+            country: "Thailand",
+            address: "0x0000000000000000000000000000000000000000", // Placeholder - no THB stablecoin yet
             flag: "/flags/th.svg",
+            decimals: 2,
+            paymentRails: ["PromptPay", "TrueMoney", "Bank Transfer"],
         },
         VND: {
             code: "VND",
-            name: "Vietnam",
-            address: "0xa7056B7d2d7B97dE9F254C17Ab7E0470E5F112c0",
+            name: "Vietnamese Dong",
+            country: "Vietnam",
+            address: "0x0000000000000000000000000000000000000000",
             flag: "/flags/vn.svg",
+            decimals: 0, // VND has no decimal places
+            paymentRails: ["VNPay", "MoMo", "ZaloPay", "Bank Transfer"],
         },
         PHP: {
             code: "PHP",
-            name: "Philippines",
-            address: "0x073b61f5Ed26d802b05301e0E019f78Ac1A41D23",
+            name: "Philippine Peso",
+            country: "Philippines",
+            address: "0x0000000000000000000000000000000000000000",
             flag: "/flags/ph.svg",
+            decimals: 2,
+            paymentRails: ["GCash", "Maya", "InstaPay", "Bank Transfer"],
         },
         MYR: {
             code: "MYR",
-            name: "Malaysia",
-            address: "0x8F878deCd44f7Cf547D559a6e6D0577E370fa0Db",
+            name: "Malaysian Ringgit",
+            country: "Malaysia",
+            address: "0x0000000000000000000000000000000000000000",
             flag: "/flags/my.svg",
+            decimals: 2,
+            paymentRails: ["DuitNow", "Touch n Go", "Boost", "Bank Transfer"],
         },
         SGD: {
             code: "SGD",
-            name: "Singapore",
-            address: "0xEff2eC240CEB2Ddf582Df0e42fc66a6910D3Fe3f",
+            name: "Singapore Dollar",
+            country: "Singapore",
+            address: "0x0000000000000000000000000000000000000000",
             flag: "/flags/sg.svg",
-        },
-        BND: {
-            code: "BND",
-            name: "Brunei",
-            address: "0x0000000000000000000000000000000000000000",
-            flag: "/flags/bn.svg",
-        },
-        KHR: {
-            code: "KHR",
-            name: "Cambodia",
-            address: "0x0000000000000000000000000000000000000000",
-            flag: "/flags/kh.svg",
-        },
-        LAK: {
-            code: "LAK",
-            name: "Laos",
-            address: "0x0000000000000000000000000000000000000000",
-            flag: "/flags/la.svg",
-        },
-        MMK: {
-            code: "MMK",
-            name: "Myanmar",
-            address: "0x0000000000000000000000000000000000000000",
-            flag: "/flags/mm.svg",
+            decimals: 2,
+            paymentRails: ["PayNow", "GrabPay", "Bank Transfer"],
         },
     },
     [LISK_MAINNET_CHAIN_ID]: {
         IDR: {
             code: "IDR",
-            name: "Indonesia",
-            address: "0x0000000000000000000000000000000000000000",
+            name: "Indonesian Rupiah",
+            country: "Indonesia",
+            address: "0x18Bc5bcC660cf2B9cE3cd51a404aFe1a0cBD3C22", // Real IDRX on Lisk Mainnet
             flag: "/flags/id.svg",
+            decimals: 2,
+            paymentRails: ["QRIS", "GoPay", "OVO", "Dana", "Bank Transfer"],
         },
         THB: {
             code: "THB",
-            name: "Thailand",
+            name: "Thai Baht",
+            country: "Thailand",
             address: "0x0000000000000000000000000000000000000000",
             flag: "/flags/th.svg",
+            decimals: 2,
+            paymentRails: ["PromptPay", "TrueMoney", "Bank Transfer"],
         },
         VND: {
             code: "VND",
-            name: "Vietnam",
+            name: "Vietnamese Dong",
+            country: "Vietnam",
             address: "0x0000000000000000000000000000000000000000",
             flag: "/flags/vn.svg",
+            decimals: 0,
+            paymentRails: ["VNPay", "MoMo", "ZaloPay", "Bank Transfer"],
         },
         PHP: {
             code: "PHP",
-            name: "Philippines",
+            name: "Philippine Peso",
+            country: "Philippines",
             address: "0x0000000000000000000000000000000000000000",
             flag: "/flags/ph.svg",
+            decimals: 2,
+            paymentRails: ["GCash", "Maya", "InstaPay", "Bank Transfer"],
         },
         MYR: {
             code: "MYR",
-            name: "Malaysia",
+            name: "Malaysian Ringgit",
+            country: "Malaysia",
             address: "0x0000000000000000000000000000000000000000",
             flag: "/flags/my.svg",
+            decimals: 2,
+            paymentRails: ["DuitNow", "Touch n Go", "Boost", "Bank Transfer"],
         },
         SGD: {
             code: "SGD",
-            name: "Singapore",
+            name: "Singapore Dollar",
+            country: "Singapore",
             address: "0x0000000000000000000000000000000000000000",
             flag: "/flags/sg.svg",
-        },
-        BND: {
-            code: "BND",
-            name: "Brunei",
-            address: "0x0000000000000000000000000000000000000000",
-            flag: "/flags/bn.svg",
-        },
-        KHR: {
-            code: "KHR",
-            name: "Cambodia",
-            address: "0x0000000000000000000000000000000000000000",
-            flag: "/flags/kh.svg",
-        },
-        LAK: {
-            code: "LAK",
-            name: "Laos",
-            address: "0x0000000000000000000000000000000000000000",
-            flag: "/flags/la.svg",
-        },
-        MMK: {
-            code: "MMK",
-            name: "Myanmar",
-            address: "0x0000000000000000000000000000000000000000",
-            flag: "/flags/mm.svg",
+            decimals: 2,
+            paymentRails: ["PayNow", "GrabPay", "Bank Transfer"],
         },
     }
 };
+
+// Helper to check if a currency has a real stablecoin deployed
+export function hasCurrencyStablecoin(currency: Currency): boolean {
+    return currency.address !== "0x0000000000000000000000000000000000000000";
+}
+
+// Get available currencies (those with real stablecoins)
+export function getAvailableCurrencies(chainId: SupportedChainId): Currency[] {
+    return Object.values(CURRENCIES[chainId]).filter(hasCurrencyStablecoin);
+}
