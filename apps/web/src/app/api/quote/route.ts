@@ -6,18 +6,17 @@ import { getExchangeRate, calculateConversion } from "@/lib/exchange-rates";
 import { LISK_MAINNET_CHAIN_ID, LISK_SEPOLIA_CHAIN_ID } from "@/config/chains";
 import { CurrencyCode } from "@/config/currencies";
 
-// Production dealer key should be in environment variable
-// NEVER commit real private keys - this is for demo/hackathon only
+// Dealer key MUST be set in environment - no fallback for security
 const DEALER_PK = process.env.DEALER_PRIVATE_KEY;
 
 if (!DEALER_PK) {
-    console.warn("⚠️ DEALER_PRIVATE_KEY not set - using demo mode");
+    console.error("❌ DEALER_PRIVATE_KEY not set - quote signing will fail");
 }
 
-// Use demo key only in development
-const account = privateKeyToAccount(
-    (DEALER_PK || "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80") as `0x${string}`
-);
+// Will throw if DEALER_PK is not set (intentional - fail fast)
+const account = DEALER_PK 
+    ? privateKeyToAccount(DEALER_PK as `0x${string}`)
+    : null;
 
 // Router addresses per chain
 const ROUTER_ADDRESSES: Record<number, `0x${string}`> = {
@@ -109,9 +108,17 @@ export async function POST(request: Request) {
         const nonce = BigInt(Date.now());
         const deadline = BigInt(Math.floor(Date.now() / 1000) + QUOTE_VALIDITY_SECONDS);
 
+        // Require dealer key for signing
+        if (!account) {
+            return NextResponse.json(
+                { success: false, error: "Server not configured for signing" },
+                { status: 500 }
+            );
+        }
+
         // Build domain for EIP-712
         const domain = {
-            name: "SEABucksRouter",
+            name: "CurrenSEARouter",
             version: "1",
             chainId: chainId,
             verifyingContract: routerAddress,
@@ -119,7 +126,7 @@ export async function POST(request: Request) {
 
         // Create wallet client for signing
         const client = createWalletClient({
-            account,
+            account: account!,
             chain: chainId === LISK_MAINNET_CHAIN_ID ? lisk : liskSepolia,
             transport: http(),
         });
@@ -168,7 +175,7 @@ export async function POST(request: Request) {
             processingTimeMs: processingTime,
             
             // Dealer info
-            dealer: account.address,
+            dealer: account!.address,
             routerAddress,
         });
 
@@ -187,8 +194,8 @@ export async function POST(request: Request) {
 // Health check endpoint
 export async function GET() {
     return NextResponse.json({
-        status: "ok",
-        dealer: account.address,
+        status: account ? "ok" : "not_configured",
+        dealer: account?.address || null,
         supportedChains: Object.keys(ROUTER_ADDRESSES).map(Number),
         spreadBps: DEALER_SPREAD_BPS,
         quoteValiditySeconds: QUOTE_VALIDITY_SECONDS,

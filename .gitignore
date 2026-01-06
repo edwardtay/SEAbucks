@@ -3,12 +3,27 @@ node_modules
 dist
 out
 build
-.env
 .DS_Store
 coverage
 .turbo
+
+# Environment & Secrets
+.env
+.env.*
+.env.local
+.env.production
 private/
+
+# Build artifacts
 apps/web/.next
 packages/contracts/artifacts
 packages/contracts/cache
 packages/contracts/typechain-types
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
