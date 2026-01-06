@@ -180,7 +180,7 @@ export async function generateOneClickOnrampFlow(
   }
 
   // Calculate final output (after all fees)
-  const swapFeePercent = 0.5; // SEAbucks dealer spread
+  const swapFeePercent = 0.5; // currenSEA dealer spread
   const afterBridgeFee = estimatedUsdcAmount * (1 - bridgeFeePercent / 100);
   const afterSwapFee = afterBridgeFee * (1 - swapFeePercent / 100);
   const finalOutput = afterSwapFee * fxRate;
@@ -212,7 +212,7 @@ export function calculateValueProposition(params: {
   currency: CurrencyCode;
 }): {
   traditional: { fee: number; time: string; steps: number };
-  seabucks: { fee: number; time: string; steps: number };
+  currenSEA: { fee: number; time: string; steps: number };
   savings: { fee: number; time: string; steps: number };
 } {
   const { amount } = params;
@@ -221,9 +221,9 @@ export function calculateValueProposition(params: {
   const traditionalFeePercent = 5; // 3-7% typical
   const traditionalFee = amount * (traditionalFeePercent / 100);
 
-  // SEAbucks
-  const seabucksFeePercent = 3.1; // Transak 2.5% + Bridge 0.1% + Swap 0.5%
-  const seabucksFee = amount * (seabucksFeePercent / 100);
+  // currenSEA
+  const currenSEAFeePercent = 3.1; // Transak 2.5% + Bridge 0.1% + Swap 0.5%
+  const currenSEAFee = amount * (currenSEAFeePercent / 100);
 
   return {
     traditional: {
@@ -231,13 +231,13 @@ export function calculateValueProposition(params: {
       time: "3-5 days",
       steps: 5,
     },
-    seabucks: {
-      fee: seabucksFee,
+    currenSEA: {
+      fee: currenSEAFee,
       time: "~10 minutes",
       steps: 2,
     },
     savings: {
-      fee: traditionalFee - seabucksFee,
+      fee: traditionalFee - currenSEAFee,
       time: "3-5 days saved",
       steps: 3,
     },

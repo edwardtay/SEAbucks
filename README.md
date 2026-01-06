@@ -1,8 +1,8 @@
-# SEAbucks
+# currenSEA
 
 ### Cross-Border Payments Infrastructure for Southeast Asia
 
-SEAbucks is a production-ready payment gateway that enables merchants in Southeast Asia to accept stablecoin payments (USDC) from anywhere in the world, with instant settlement in local currencies. Built on **Lisk L2** for near-zero fees and sub-second finality.
+currenSEA is a production-ready payment gateway that enables merchants in Southeast Asia to accept stablecoin payments (USDC) from anywhere in the world, with instant settlement in local currencies. Built on **Lisk L2** for near-zero fees and sub-second finality.
 
 ---
 
@@ -10,7 +10,7 @@ SEAbucks is a production-ready payment gateway that enables merchants in Southea
 
 Cross-border payments in Southeast Asia are broken:
 
-| Issue | Traditional Rails | SEAbucks |
+| Issue | Traditional Rails | currenSEA |
 |-------|------------------|----------|
 | Fees | 3-7% (SWIFT, Cards) | 0.5% |
 | Settlement | 3-5 business days | < 2 seconds |
@@ -23,7 +23,7 @@ Cross-border payments in Southeast Asia are broken:
 
 ## ✨ Solution
 
-SEAbucks provides **zero-setup payment infrastructure** with:
+currenSEA provides **zero-setup payment infrastructure** with:
 
 1. **Universal Acceptance** - Accept USDC/USDT from any wallet worldwide
 2. **Instant FX Conversion** - Real-time USD→Local currency via signed dealer quotes
@@ -38,7 +38,7 @@ SEAbucks provides **zero-setup payment infrastructure** with:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     SEABucksRouter                          │
+│                     CurrenSEARouter                         │
 │  ┌─────────────────────────────────────────────────────┐   │
 │  │  EIP-712 Signed Quotes (Dealer Model)               │   │
 │  │  - Prevents front-running                           │   │
@@ -78,7 +78,7 @@ Sign EIP-712 Quote → Return to Frontend → Execute on Router Contract
 
 | Contract | Address | Verified |
 |----------|---------|----------|
-| SEABucksRouter | `0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0` | ✅ |
+| CurrenSEARouter | `0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0` | ✅ |
 | USDC.e (Bridged) | `0x0E82fDDAd51cc3ac12b69761C45bBCB9A2Bf3C83` | ✅ |
 | IDRX | `0xD63029C1a3dA68b51c67c6D1DeC3DEe50D681661` | ✅ |
 
@@ -109,7 +109,7 @@ Sign EIP-712 Quote → Return to Frontend → Execute on Router Contract
 
 ## 💳 On-Ramp / Off-Ramp
 
-SEAbucks integrates fiat on/off-ramp via multiple providers:
+currenSEA integrates fiat on/off-ramp via multiple providers:
 
 **Option 1: Onramper (Recommended - Self-serve)**
 - Aggregates Transak, MoonPay, Wyre, etc.
@@ -149,8 +149,8 @@ Fiat (PHP/MYR/VND) → On-ramp → USDC on Base → Superbridge → USDC on Lisk
 
 ```bash
 # Clone
-git clone https://github.com/your-repo/seabucks.git
-cd seabucks
+git clone https://github.com/edwardtay/currenSEA.git
+cd currenSEA
 
 # Install dependencies
 npm install
@@ -190,7 +190,7 @@ QUOTE_VALIDITY_SECONDS=300        # 5 minute quotes
 
 | Criteria | Implementation |
 |----------|---------------|
-| **Smart Contract on Lisk** | ✅ SEABucksRouter deployed on Sepolia |
+| **Smart Contract on Lisk** | ✅ CurrenSEARouter deployed on Sepolia |
 | **Live Project URL** | ✅ Deployed on Vercel |
 | **Public GitHub Repo** | ✅ Open source |
 | **Real-World Venture** | ✅ Solves $48B SEA remittance market |

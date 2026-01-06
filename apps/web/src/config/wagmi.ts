@@ -20,7 +20,7 @@ export const liskSepolia = defineChain({
 })
 
 export const config = getDefaultConfig({
-    appName: 'SEAbucks',
+    appName: 'currenSEA',
     projectId: 'YOUR_PROJECT_ID', // Replace with actual ID (WalletConnect)
     chains: [liskSepolia, lisk],
     ssr: true,

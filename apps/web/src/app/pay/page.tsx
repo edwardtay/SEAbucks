@@ -142,7 +142,7 @@ function PaymentContent() {
         try {
             const dataUrl = await toPng(receiptRef.current, { cacheBust: true, backgroundColor: '#020617' });
             const link = document.createElement('a');
-            link.download = `seabucks-receipt-${Date.now()}.png`;
+            link.download = `currensea-receipt-${Date.now()}.png`;
             link.href = dataUrl;
             link.click();
         } catch (err) {
@@ -218,7 +218,7 @@ function PaymentContent() {
                                         </div>
                                         <div className="flex justify-between text-sm">
                                             <span className="text-slate-500">Method</span>
-                                            <span className="text-slate-300">SEAbucks on Lisk</span>
+                                            <span className="text-slate-300">currenSEA on Lisk</span>
                                         </div>
                                         <div className="flex justify-between text-sm">
                                             <span className="text-slate-500">Date</span>

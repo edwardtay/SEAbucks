@@ -9,7 +9,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "SEAbucks | Local Stablecoin Payments",
+  title: "currenSEA | Local Stablecoin Payments",
   description: "Cross-border payments made local.",
 };
 

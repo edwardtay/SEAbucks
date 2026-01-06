@@ -94,7 +94,7 @@ export default function OnrampPage() {
               <Coins className="text-white w-6 h-6" />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-white text-xl">SEAbucks</span>
+              <span className="font-bold text-white text-xl">currenSEA</span>
               <span className="text-[10px] text-green-400 font-medium uppercase">One-Click On-Ramp</span>
             </div>
           </Link>
@@ -123,13 +123,13 @@ export default function OnrampPage() {
                     Save ${valueProps.savings.fee.toFixed(2)} vs traditional
                   </div>
                   <div className="text-xs text-slate-400">
-                    {valueProps.seabucks.time} instead of {valueProps.traditional.time}
+                  {valueProps.currenSEA.time} instead of {valueProps.traditional.time}
                   </div>
                 </div>
               </div>
               <div className="text-right">
                 <div className="text-lg font-bold text-green-400">
-                  {valueProps.seabucks.steps} steps
+                  {valueProps.currenSEA.steps} steps
                 </div>
                 <div className="text-xs text-slate-500">vs {valueProps.traditional.steps} traditional</div>
               </div>
@@ -350,7 +350,7 @@ export default function OnrampPage() {
                     <p className="text-sm text-blue-200 font-medium">After Purchase</p>
                     <p className="text-xs text-blue-300/70 mt-1">
                       Once you receive USDC on Base, use Superbridge to move it to Lisk. 
-                      Then the recipient can use SEAbucks to convert to {quote.outputCurrency}.
+                      Then the recipient can use currenSEA to convert to {quote.outputCurrency}.
                     </p>
                   </div>
                 </div>

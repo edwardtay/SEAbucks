@@ -26,7 +26,7 @@ export function PaymentQR({ paymentUrl, amount, currency, merchantName, memo }: 
       try {
         await navigator.share({
           title: `Pay ${amount} ${currency}`,
-          text: memo || `Payment request from ${merchantName || "SEAbucks"}`,
+          text: memo || `Payment request from ${merchantName || "currenSEA"}`,
           url: paymentUrl,
         });
       } catch (err) {
@@ -59,7 +59,7 @@ export function PaymentQR({ paymentUrl, amount, currency, merchantName, memo }: 
       ctx?.drawImage(img, 0, 0);
       const pngFile = canvas.toDataURL("image/png");
       const downloadLink = document.createElement("a");
-      downloadLink.download = `seabucks-payment-${Date.now()}.png`;
+      downloadLink.download = `currensea-payment-${Date.now()}.png`;
       downloadLink.href = pngFile;
       downloadLink.click();
     };
@@ -142,9 +142,9 @@ export function PaymentQR({ paymentUrl, amount, currency, merchantName, memo }: 
         </button>
       </div>
 
-      {/* SEAbucks branding */}
+      {/* currenSEA branding */}
       <div className="mt-6 pt-4 border-t border-slate-200">
-        <div className="text-xs text-slate-400">Powered by SEAbucks on Lisk</div>
+        <div className="text-xs text-slate-400">Powered by currenSEA on Lisk</div>
       </div>
     </div>
   );
